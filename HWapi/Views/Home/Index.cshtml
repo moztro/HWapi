@@ -1,0 +1,160 @@
+﻿<script type="text/javascript" src="Scripts/jquery-1.8.2.min.js"></script>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $('#btnUserCall').click(function () {
+            prepareAPICall($('#txtUserId').val(), 'api/User', 'GET');
+        });
+
+        $('#btnCarCall').click(function () {
+            prepareAPICall($('#txtCarId').val(), 'api/Car', 'GET');
+        });
+
+        $('#btnCollectionCall').click(function () {
+            prepareAPICall($('#txtCollectionId').val(), 'api/Collection', 'GET');
+        });
+
+        $('#btnLogin').click(login);
+    });
+
+    function login() {
+        var username = $('#Username').val();
+        var pass = $('#Password').val();
+
+        $.ajax({
+            type: 'POST',
+            url: 'api/UserLogin',
+            data: '{"UserLogin":"' + username + '", "UserPassword":"' + pass + '"}',
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            success: function (response) {
+                LOG(response);
+                var msg = 'Login failed';
+
+                if (response != null)
+                    msg = 'Login successfully';
+
+                alert(msg);
+            },
+            failure: function () {
+                LOG('FAILURE');
+            },
+            error: function () {
+                LOG('ERROR');
+            }
+        });
+    }
+
+    /*
+    function doCombo(arrayHits) {
+
+        if (arrayHits == null)
+            return 0;
+
+        var notNullArrayHits = [];
+
+        for (var hit in arrayHits) {
+            if (hit != null && hit != undefined)
+                notNullArrayHits.push(hit);
+        }
+
+        var arrayHitsOK = [];
+        var firstHit = true;
+        for (var hit in notNullArrayHits) {
+            if (firstHit) {
+                console.log("first hit!, " + hit);
+                firstHit = false;
+            }
+
+            if (hit.strike()) {
+                console.log(hit + ' causes damage');
+                arrayHitsOK.push(hit);
+            } else {
+                console.log("enemy avoids hit");
+            }
+        }
+
+        var comboHits = 0;
+        if(arrayHitsOK != null)
+            comboHits = arrayHitsOK.length;
+
+        return comboHits;
+    }
+    */
+    function prepareAPICall(_objId, _uri, _type) {
+
+        if (_objId == null) {
+            LOG('Null values were detected');
+            return;
+        }
+
+        var params = '';
+        if (_objId != '')
+            params = '/' + _objId;
+
+        var uri = _uri + params;
+        callAPI(_type, uri);
+    }
+
+    function callAPI(_type, _url) {
+        $.ajax({
+            type: _type,
+            url: _url,
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            success: function (response) {
+                $('#result').empty().append(response[0]);
+                LOG('The call was successfull', response);
+            },
+            failure: function () {
+                LOG("The call has fail");
+            },
+            error: function () {
+                LOG("An error has ocurred");
+            }
+        });
+    }
+
+    var LOG = function (msg, obj) {
+        
+        if (obj == null || obj == undefined)
+            return console.log(msg);
+
+        return console.log(msg, obj);
+    }
+
+</script>
+<div id="body">
+    <section class="featured">
+        <div class="content-wrapper">
+            <hgroup class="title">
+                <h1>Welcome to HW Collection API!</h1>
+            </hgroup>
+            <p>
+                <h2>Login</h2>
+                <label for="Username">Username</label>
+                <input type="text" id="Username" />
+                <label for="Password">Password</label>
+                <input type="password" id="Password" />
+                <br />
+                <input type="button" id="btnLogin" value="Sign In" />
+            </p>
+            <p>
+                <h2>User API Call</h2>
+                <input type="text" id="txtUserId" />
+                <input type="button" id="btnUserCall" value="Call UserAPI" />
+            </p>
+            <p>
+                <h2>Car API Call</h2>
+                <input type="text" id="txtCarId" />
+                <input type="button" id="btnCarCall" value="Call Car API" />
+            </p>
+            <p>
+                <h2>Car Collection API Call</h2>
+                <input type="text" id="txtCollectionId" />
+                <input type="button" id="btnCollectionCall" value="Call Collection API" />
+            </p>
+        </div>
+        <div id="result"></div>
+    </section>
+</div>

@@ -1,0 +1,322 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="HWModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="CarCollections">
+          <Key>
+            <PropertyRef Name="CarCollectionId" />
+          </Key>
+          <Property Name="CarCollectionId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CarId" Type="int" />
+          <Property Name="UserId" Type="int" />
+          <Property Name="Activo" Type="bit" />
+        </EntityType>
+        <EntityType Name="Cars">
+          <Key>
+            <PropertyRef Name="CarId" />
+          </Key>
+          <Property Name="CarId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CarName" Type="nvarchar" MaxLength="50" />
+          <Property Name="Tags" Type="text" />
+          <Property Name="Activo" Type="bit" />
+        </EntityType>
+        <EntityType Name="CatCatalogs">
+          <Key>
+            <PropertyRef Name="CatalogoId" />
+          </Key>
+          <Property Name="CatalogoId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Catalogo" Type="nvarchar" MaxLength="50" />
+          <Property Name="Activo" Type="bit" />
+        </EntityType>
+        <EntityType Name="CatValues">
+          <Key>
+            <PropertyRef Name="ValorId" />
+          </Key>
+          <Property Name="ValorId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Valor" Type="text" />
+          <Property Name="CatalogoId" Type="int" />
+          <Property Name="Activo" Type="bit" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="100" />
+          <Property Name="UserLogin" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserPassword" Type="nvarchar" MaxLength="50" />
+          <Property Name="Activo" Type="bit" />
+        </EntityType>
+        <Association Name="FK__CarCollec__CarId__117F9D94">
+          <End Role="Cars" Type="Self.Cars" Multiplicity="0..1" />
+          <End Role="CarCollections" Type="Self.CarCollections" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cars">
+              <PropertyRef Name="CarId" />
+            </Principal>
+            <Dependent Role="CarCollections">
+              <PropertyRef Name="CarId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__CarCollec__UserI__1273C1CD">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="CarCollections" Type="Self.CarCollections" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="CarCollections">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__CatValor__Catalo__0519C6AF">
+          <End Role="CatCatalogs" Type="Self.CatCatalogs" Multiplicity="0..1" />
+          <End Role="CatValues" Type="Self.CatValues" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CatCatalogs">
+              <PropertyRef Name="CatalogoId" />
+            </Principal>
+            <Dependent Role="CatValues">
+              <PropertyRef Name="CatalogoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="ValidateLogin" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Username" Type="nvarchar" Mode="In" />
+          <Parameter Name="Password" Type="nvarchar" Mode="In" />
+        </Function>
+        <EntityContainer Name="HWModelStoreContainer">
+          <EntitySet Name="CarCollections" EntityType="Self.CarCollections" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Cars" EntityType="Self.Cars" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CatCatalogs" EntityType="Self.CatCatalogs" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CatValues" EntityType="Self.CatValues" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__CarCollec__CarId__117F9D94" Association="Self.FK__CarCollec__CarId__117F9D94">
+            <End Role="Cars" EntitySet="Cars" />
+            <End Role="CarCollections" EntitySet="CarCollections" />
+          </AssociationSet>
+          <AssociationSet Name="FK__CarCollec__UserI__1273C1CD" Association="Self.FK__CarCollec__UserI__1273C1CD">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="CarCollections" EntitySet="CarCollections" />
+          </AssociationSet>
+          <AssociationSet Name="FK__CatValor__Catalo__0519C6AF" Association="Self.FK__CatValor__Catalo__0519C6AF">
+            <End Role="CatCatalogs" EntitySet="CatCatalogs" />
+            <End Role="CatValues" EntitySet="CatValues" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="HWModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="CarCollection">
+          <Key>
+            <PropertyRef Name="CarCollectionId" />
+          </Key>
+          <Property Name="CarCollectionId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CarId" Type="Int32" />
+          <Property Name="UserId" Type="Int32" />
+          <Property Name="Activo" Type="Boolean" />
+          <NavigationProperty Name="Car" Relationship="Self.FK__CarCollec__CarId__117F9D94" FromRole="CarCollections" ToRole="Cars" />
+          <NavigationProperty Name="User" Relationship="Self.FK__CarCollec__UserI__1273C1CD" FromRole="CarCollections" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="Car">
+          <Key>
+            <PropertyRef Name="CarId" />
+          </Key>
+          <Property Name="CarId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CarName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Tags" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Activo" Type="Boolean" />
+          <NavigationProperty Name="CarCollections" Relationship="Self.FK__CarCollec__CarId__117F9D94" FromRole="Cars" ToRole="CarCollections" />
+        </EntityType>
+        <EntityType Name="CatCatalog">
+          <Key>
+            <PropertyRef Name="CatalogoId" />
+          </Key>
+          <Property Name="CatalogoId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Catalogo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Activo" Type="Boolean" />
+          <NavigationProperty Name="CatValues" Relationship="Self.FK__CatValor__Catalo__0519C6AF" FromRole="CatCatalogs" ToRole="CatValues" />
+        </EntityType>
+        <EntityType Name="CatValue">
+          <Key>
+            <PropertyRef Name="ValorId" />
+          </Key>
+          <Property Name="ValorId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Valor" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="CatalogoId" Type="Int32" />
+          <Property Name="Activo" Type="Boolean" />
+          <NavigationProperty Name="CatCatalog" Relationship="Self.FK__CatValor__Catalo__0519C6AF" FromRole="CatValues" ToRole="CatCatalogs" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="UserLogin" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserPassword" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Activo" Type="Boolean" />
+          <NavigationProperty Name="CarCollections" Relationship="Self.FK__CarCollec__UserI__1273C1CD" FromRole="Users" ToRole="CarCollections" />
+        </EntityType>
+        <Association Name="FK__CarCollec__CarId__117F9D94">
+          <End Role="Cars" Type="Self.Car" Multiplicity="0..1" />
+          <End Role="CarCollections" Type="Self.CarCollection" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cars">
+              <PropertyRef Name="CarId" />
+            </Principal>
+            <Dependent Role="CarCollections">
+              <PropertyRef Name="CarId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__CarCollec__UserI__1273C1CD">
+          <End Role="Users" Type="Self.User" Multiplicity="0..1" />
+          <End Role="CarCollections" Type="Self.CarCollection" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="CarCollections">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__CatValor__Catalo__0519C6AF">
+          <End Role="CatCatalogs" Type="Self.CatCatalog" Multiplicity="0..1" />
+          <End Role="CatValues" Type="Self.CatValue" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CatCatalogs">
+              <PropertyRef Name="CatalogoId" />
+            </Principal>
+            <Dependent Role="CatValues">
+              <PropertyRef Name="CatalogoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="HWEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="CarCollections" EntityType="Self.CarCollection" />
+          <EntitySet Name="Cars" EntityType="Self.Car" />
+          <EntitySet Name="CatCatalogs" EntityType="Self.CatCatalog" />
+          <EntitySet Name="CatValues" EntityType="Self.CatValue" />
+          <EntitySet Name="Users" EntityType="Self.User" />
+          <AssociationSet Name="FK__CarCollec__CarId__117F9D94" Association="Self.FK__CarCollec__CarId__117F9D94">
+            <End Role="Cars" EntitySet="Cars" />
+            <End Role="CarCollections" EntitySet="CarCollections" />
+          </AssociationSet>
+          <AssociationSet Name="FK__CarCollec__UserI__1273C1CD" Association="Self.FK__CarCollec__UserI__1273C1CD">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="CarCollections" EntitySet="CarCollections" />
+          </AssociationSet>
+          <AssociationSet Name="FK__CatValor__Catalo__0519C6AF" Association="Self.FK__CatValor__Catalo__0519C6AF">
+            <End Role="CatCatalogs" EntitySet="CatCatalogs" />
+            <End Role="CatValues" EntitySet="CatValues" />
+          </AssociationSet>
+          <FunctionImport Name="ValidateLogin" ReturnType="Collection(HWModel.ValidateLogin_Result)">
+            <Parameter Name="Username" Mode="In" Type="String" />
+            <Parameter Name="Password" Mode="In" Type="String" />
+          </FunctionImport>
+        </EntityContainer>
+        <ComplexType Name="ValidateLogin_Result">
+          <Property Type="Int32" Name="UserId" Nullable="false" />
+          <Property Type="String" Name="UserLogin" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="UserName" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="UserPassword" Nullable="true" MaxLength="50" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="HWModelStoreContainer" CdmEntityContainer="HWEntities">
+          <EntitySetMapping Name="CarCollections">
+            <EntityTypeMapping TypeName="HWModel.CarCollection">
+              <MappingFragment StoreEntitySet="CarCollections">
+                <ScalarProperty Name="CarCollectionId" ColumnName="CarCollectionId" />
+                <ScalarProperty Name="CarId" ColumnName="CarId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Activo" ColumnName="Activo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Cars">
+            <EntityTypeMapping TypeName="HWModel.Car">
+              <MappingFragment StoreEntitySet="Cars">
+                <ScalarProperty Name="CarId" ColumnName="CarId" />
+                <ScalarProperty Name="CarName" ColumnName="CarName" />
+                <ScalarProperty Name="Tags" ColumnName="Tags" />
+                <ScalarProperty Name="Activo" ColumnName="Activo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CatCatalogs">
+            <EntityTypeMapping TypeName="HWModel.CatCatalog">
+              <MappingFragment StoreEntitySet="CatCatalogs">
+                <ScalarProperty Name="CatalogoId" ColumnName="CatalogoId" />
+                <ScalarProperty Name="Catalogo" ColumnName="Catalogo" />
+                <ScalarProperty Name="Activo" ColumnName="Activo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CatValues">
+            <EntityTypeMapping TypeName="HWModel.CatValue">
+              <MappingFragment StoreEntitySet="CatValues">
+                <ScalarProperty Name="ValorId" ColumnName="ValorId" />
+                <ScalarProperty Name="Valor" ColumnName="Valor" />
+                <ScalarProperty Name="CatalogoId" ColumnName="CatalogoId" />
+                <ScalarProperty Name="Activo" ColumnName="Activo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="HWModel.User">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="UserLogin" ColumnName="UserLogin" />
+                <ScalarProperty Name="UserPassword" ColumnName="UserPassword" />
+                <ScalarProperty Name="Activo" ColumnName="Activo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="ValidateLogin" FunctionName="HWModel.Store.ValidateLogin">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HWModel.ValidateLogin_Result">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="UserLogin" ColumnName="UserLogin" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="UserPassword" ColumnName="UserPassword" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="true" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
