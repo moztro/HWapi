@@ -10,6 +10,7 @@ namespace HWapi.Services
     {
         private static CarServices instance = null;
         private HWEntities db = new HWEntities();
+        static IEnumerable<Car> CacheCar {get;set;}
 
         private CarServices() { }
 
